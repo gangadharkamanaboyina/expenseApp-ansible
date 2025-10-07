@@ -6,7 +6,6 @@
     sg_id: sg-0d746c47fa77fadc0
     instances:
     - backend
-    - frontend
   tasks:
   - name: Create ec2 instance
     amazon.aws.ec2_instance:
@@ -15,6 +14,13 @@
       security_group: "{{sg_id}}"
       image_id: "{{ami_id}}"
     loop: "{{instances}}"
+    register: ec2_info
+  
+  - name: Print ec2 info 
+    ansible.builtin.debug:
+     msg: "{{ec2_info}}"
+     
+
   # - name: update route53 records
   #   amazon.aws.route53:
   #     state: present
