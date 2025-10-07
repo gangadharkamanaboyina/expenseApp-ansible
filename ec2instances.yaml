@@ -48,5 +48,5 @@
       value: "{{item.instances[0].public_ip_address}}"
       overwrite: true
     loop: "{{ec2_info.results}}"
-    when: "{{instances == frontend}}"
+    when: item.item=="frontend"
 
