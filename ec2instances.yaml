@@ -4,6 +4,7 @@
   vars:
     ami_id: ami-09c813fb71547fc4f
     sg_id: sg-0d746c47fa77fadc0
+    domain_name: gangu.fun
     instances:
     - backend
   tasks:
@@ -20,17 +21,30 @@
   #   ansible.builtin.debug:
   #    msg: "{{ec2_info}}"
 
-  - name: Print public ip address
-    ansible.builtin.debug:
-      msg: "{{item.instances[0].public_ip_address}}"
-    loop: "{{ec2_info.results}}"
+  # - name: Print public ip address
+  #   ansible.builtin.debug:
+  #     msg: "{{item.instances[0].public_ip_address}}"
+  #   loop: "{{ec2_info.results}}"
      
 
-  # - name: update route53 records
-  #   amazon.aws.route53:
-  #     state: present
-  #     zone:  gangu.fun
-  #     record: mysql.gangu.fun
-  #     type: A
-  #     ttl: 1
+  - name: update route53 records
+    amazon.aws.route53:
+      state: present
+      zone:  "{{domain_name}}"
+      record: "{{item.item}}.{{domain_name}}"
+      type: A
+      ttl: 1
+      overwrite: true
+      value: "{{item.instances[0].private_ip_address}}"
+    loop: "{{ec2_info.results}}"
+
+  - name: Route53 record update for frontend
+    amazon.aws.route53: 
+      zone: "{{domain_name}}"
+      record: "{{item.item}}.{{domain_name}}"
+      type: A
+      ttl: 1
+      value: "{{item.instances[0].public_ip_address}}"
+    loop: "{{ec2_info.results}}"
+    when: "{{instances == frontend}}"
 
