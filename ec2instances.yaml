@@ -19,6 +19,11 @@
   - name: Print ec2 info 
     ansible.builtin.debug:
      msg: "{{ec2_info}}"
+
+  - name: Print public ip address
+    ansible.builtin.debug:
+      msg: "{{item.instances[0].public_ip_address}}"
+    loop: "{{ec2_info.results}}"
      
 
   # - name: update route53 records
