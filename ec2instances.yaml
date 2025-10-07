@@ -4,10 +4,17 @@
   tasks:
   - name: create ec2 instances
     amazon.aws.ec2_instance:
-      name: backend
+      name: mysql
       instance_type: t3.micro
       image_id: ami-09c813fb71547fc4f
       security_group: sg-0d746c47fa77fadc0
       state: present
 
+  - name: update route53 records
+    amazon.aws.route53:
+      state: present
+      zone:  gangu.fun
+      record: mysql.foo.com
+      type: A
+      ttl: 1
 
