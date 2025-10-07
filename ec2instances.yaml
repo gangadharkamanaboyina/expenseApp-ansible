@@ -1,0 +1,13 @@
+- name: Creating ec2 instances and route53 records
+  hosts: local
+  connection: local
+  tasks:
+  - name: create ec2 instances
+    amazon.aws.ec2_instance:
+      name: backend
+      instance_type: t3.micro
+      instance_id: i-0383d97851a2c5e4c
+      security_group: sg-0d746c47fa77fadc0
+      state: present
+
+
