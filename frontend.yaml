@@ -7,17 +7,21 @@
        name: nginx
        state: present
     
-    - name: remove default content
+    - name: remove html directory
       ansible.builtin.file:
         path: /usr/share/nginx/html/
         state: absent
+    - name: create html directory
+      ansible.builtin.file:
+        path: /usr/share/nginx/html/
+        state: directory
 
     - name: download content of frontend
       ansible.builtin.get_url:
         url: https://expense-joindevops.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
         dest: /tmp/frontend.zip
 
-    - name: unzip in app directory
+    - name: unzip frontend application
       ansible.builtin.unarchive:
         src: /tmp/frontend.zip
         dest: /usr/share/nginx/html/
