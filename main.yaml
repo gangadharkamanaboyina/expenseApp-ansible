@@ -2,6 +2,6 @@
   hosts: "{{component}}"
   become: yes
   tasks:
-  ansible.builtin.include_role:
-    name: "{{item}}"
-  loop: "{{component}}"
+   ansible.builtin.include_role:
+     name: "{{item}}"
+   loop: "{{component}}"
