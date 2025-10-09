@@ -55,6 +55,7 @@
     
    - name: load mysql schema
      community.mysql.mysql_db:
+      name: all
       login_host: mysql.gangu.fun
       login_user: root
       login_password: ExpenseApp@1
