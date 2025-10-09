@@ -1,4 +1,4 @@
-- name: Expense App backend application
-  hosts: backend
-  become: yes
+# - name: Expense App backend application
+#   hosts: backend
+#   become: yes
   
