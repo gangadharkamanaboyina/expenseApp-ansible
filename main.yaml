@@ -1,8 +1,5 @@
 - name: Expense App backend application
   hosts: "{{component}}"
   become: yes
-  tasks:
-  - name: looping all at once
-    ansible.builtin.include_role:
-     name: "{{item}}"
-    loop: "{{component}}"
+  roles:
+  - "{{component}}"
