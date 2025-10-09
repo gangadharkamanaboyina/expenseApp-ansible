@@ -1,7 +1,7 @@
-- name: install nginx
-  ansible.builtin.dnf:
-    name: nginx
-    state: present
+- name: install nginx from common
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: nginx.yaml
 
 - name: remove html directory
   ansible.builtin.file:
