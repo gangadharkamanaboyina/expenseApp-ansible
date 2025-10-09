@@ -1,5 +1,7 @@
 - name: install nodejs
-  import_tasks: nodejs.yaml
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: nodejs.yaml
 
 
 - name: install python libraries
@@ -50,7 +52,9 @@
     dest: /etc/systemd/system/backend.service
 
 - name: install mysql
-  import_tasks: mysql.yaml
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: mysql.yaml
 
 - name: load mysql schema
   community.mysql.mysql_db:
