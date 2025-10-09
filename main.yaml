@@ -1,4 +1,5 @@
 - name: Expense App backend application
-  hosts: backend
+  hosts: "{{component}}"
   become: yes
-  
+  roles:
+  - "{{component}}"
