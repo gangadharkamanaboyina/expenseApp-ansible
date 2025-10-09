@@ -1,7 +1,7 @@
 - name: install mysql server from common folder
   ansible.builtin.include_role:
     name: common
-    tasks_from: mysql-server.yaml
+    tasks_from: "mysql-server.yaml"
 
 - name: enable and start mysqld
   ansible.builtin.systemd:
