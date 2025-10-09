@@ -1,15 +1,18 @@
 - name: Expense App backend application
-  hosts: local
+  hosts: backend
   become: yes
   tasks:
    - name: disable default nodejs
      ansible.builtin.command: dnf module disable nodejs -y
    - name: enable nodejs:20
      ansible.builtin.command: dnf module enable nodejs:20 -y
-   - name: install nodejs
+   - name: install nodejs and mysql
      ansible.builtin.dnf:
-        name: nodejs
+        name: "{{ item }}"
         state: present
+     loop: 
+        - nodejs
+        - mysql
     
    - name: create expense user
      ansible.builtin.user:
@@ -49,10 +52,18 @@
      ansible.builtin.copy:
       src: backend.service
       dest: /etc/systemd/system/backend.service
-
+    
+   - name: load mysql schema
+     community.mysql.mysql_db:
+      login_host: mysql.gangu.fun
+      login_user: root
+      login_password: ExpenseApp@1
+      state: import
+      target: /app/schema/backend.sql
+  
    - name: reload daemon and start services
      ansible.builtin.systemd_service:
-      name: backend
-      enabled: true
-      state: restarted
-      daemon_reload: true
+       name: backend
+       enabled: true
+       state: restarted
+       daemon_reload: true
