@@ -2,6 +2,8 @@
   hosts: localhost
   connection: local
   become: yes
+
   tasks:
-    - include_role:
+    - name: Include the selected component role
+      include_role:
         name: "{{ component }}"
